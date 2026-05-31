@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#6c4cf1">
+<title>Adjective Adventure 🚀 — Grade 5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{overscroll-behavior:none;overflow:hidden}
+body{
+  font-family:'Quicksand',sans-serif;
+  min-height:100dvh;
+  background:
+    radial-gradient(circle at 15% 10%, #ffd166 0%, transparent 35%),
+    radial-gradient(circle at 85% 15%, #ff6b9d 0%, transparent 35%),
+    radial-gradient(circle at 80% 90%, #48dbfb 0%, transparent 40%),
+    radial-gradient(circle at 10% 85%, #1dd1a1 0%, transparent 40%),
+    linear-gradient(135deg,#6c4cf1 0%,#a259ff 50%,#ff6b9d 100%);
+  background-attachment:fixed;
+  padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  display:flex;align-items:center;justify-content:center;
+  color:#2d1b69;
+}
+.book{
+  width:100%;max-width:560px;
+  height:calc(100dvh - 16px);
+  background:#fff;
+  border-radius:28px;
+  box-shadow:0 25px 60px rgba(44,18,105,.45),0 0 0 6px rgba(255,255,255,.25);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+  border:4px solid #fff;
+}
+.book::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(255,209,102,.35), transparent 18%),
+    radial-gradient(circle at 92% 8%, rgba(255,107,157,.3), transparent 18%);
+}
+.header{
+  padding:14px 18px;
+  background:linear-gradient(135deg,#ff6b9d 0%,#a259ff 50%,#48dbfb 100%);
+  color:#fff;
+  display:flex;align-items:center;gap:10px;
+  position:relative;z-index:2;
+  border-bottom:3px dashed rgba(255,255,255,.55);
+}
+.header .emoji{font-size:1.8rem;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}
+.header h1{font-family:'Baloo 2',sans-serif;font-size:1.25rem;letter-spacing:.5px;text-shadow:0 2px 4px rgba(0,0,0,.25);flex:1;line-height:1.1}
+.header .sub{font-size:.7rem;opacity:.95;font-weight:600}
+.page-wrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
+.page{padding:18px 16px 24px;display:none;animation:fadeIn .45s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+/* Cover */
+.cover{
+  min-height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:18px;padding:30px 20px;
+}
+.cover .big{font-size:5rem;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(5deg)}}
+.cover h2{font-family:'Baloo 2',sans-serif;font-size:2.2rem;background:linear-gradient(135deg,#ff6b9d,#a259ff,#48dbfb);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.1}
+.cover p{font-size:1rem;color:#5b3fb3;font-weight:600;max-width:300px}
+.cover .badge{
+  background:linear-gradient(135deg,#ffd166,#ff9f43);
+  color:#2d1b69;font-weight:700;padding:10px 20px;border-radius:999px;
+  box-shadow:0 6px 18px rgba(255,159,67,.5);
+  font-family:'Baloo 2',sans-serif;
+}
+
+/* Page header */
+.rule-card{
+  background:linear-gradient(135deg,#fff3b0,#ffe5ec);
+  border:3px solid #ff6b9d;
+  border-radius:22px;
+  padding:14px 16px;
+  margin-bottom:16px;
+  text-align:center;
+  box-shadow:0 6px 0 #ff6b9d33;
+}
+.rule-card .ico{font-size:2.2rem;display:block;margin-bottom:4px}
+.rule-card h3{font-family:'Baloo 2',sans-serif;color:#a259ff;font-size:1.3rem;line-height:1.1}
+.rule-card .rule{margin-top:6px;font-weight:700;color:#6c4cf1;font-size:.95rem}
+
+/* Word card */
+.word-card{
+  background:#fff;
+  border-radius:20px;
+  margin-bottom:14px;
+  overflow:hidden;
+  box-shadow:0 4px 0 #a259ff33,0 8px 20px rgba(108,76,241,.15);
+  border:3px solid;
+  position:relative;
+}
+.word-card:nth-child(6n+1){border-color:#ff6b9d}
+.word-card:nth-child(6n+2){border-color:#48dbfb}
+.word-card:nth-child(6n+3){border-color:#1dd1a1}
+.word-card:nth-child(6n+4){border-color:#ffd166}
+.word-card:nth-child(6n+5){border-color:#a259ff}
+.word-card:nth-child(6n)  {border-color:#ff9f43}
+
+.wc-head{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 14px;
+  background:linear-gradient(135deg,#f3eaff,#ffe5ec);
+  font-family:'Baloo 2',sans-serif;
+}
+.wc-num{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,#ff6b9d,#a259ff);
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:.95rem;flex-shrink:0;
+  box-shadow:0 3px 8px rgba(162,89,255,.4);
+}
+.wc-title{flex:1;font-size:1.05rem;color:#6c4cf1;font-weight:700}
+.wc-emoji{font-size:1.5rem}
+
+.row{
+  display:grid;grid-template-columns:auto 1fr auto 1fr;
+  align-items:center;gap:8px;
+  padding:10px 12px;
+  border-top:2px dashed #f0e6ff;
+}
+.tag{
+  font-family:'Baloo 2',sans-serif;font-size:.65rem;
+  padding:4px 8px;border-radius:8px;color:#fff;font-weight:700;
+  text-align:center;min-width:48px;line-height:1;
+}
+.tag.p{background:#1dd1a1}
+.tag.c{background:#feca57;color:#5b3a00}
+.tag.s{background:#ff6b9d}
+.eng{
+  font-family:'Fredoka',sans-serif;font-weight:600;
+  color:#2d1b69;font-size:1.05rem;
+  display:flex;align-items:center;gap:6px;
+  flex-wrap:wrap;
+}
+.urdu{
+  font-family:'Noto Nastaliq Urdu',serif;
+  color:#6c4cf1;font-size:1.15rem;
+  text-align:right;direction:rtl;line-height:1.6;
+}
+.audio{
+  width:36px;height:36px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,#48dbfb,#a259ff);
+  color:#fff;font-size:1rem;cursor:pointer;flex-shrink:0;
+  box-shadow:0 3px 8px rgba(72,219,251,.45);
+  display:inline-flex;align-items:center;justify-content:center;
+  transition:transform .15s;
+}
+.audio:active{transform:scale(.85)}
+
+/* End page */
+.end{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:30px 20px}
+.end .star{font-size:5rem;animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.end h2{font-family:'Baloo 2',sans-serif;font-size:2rem;color:#a259ff}
+.end p{color:#5b3fb3;font-weight:600;font-size:1rem;max-width:300px}
+
+/* Nav */
+.nav{
+  padding:10px 14px max(10px,env(safe-area-inset-bottom));
+  background:linear-gradient(135deg,#fff,#f3eaff);
+  display:flex;align-items:center;gap:10px;
+  border-top:3px solid #a259ff44;
+  position:relative;z-index:2;
+}
+.nbtn{
+  flex:0 0 auto;min-width:72px;min-height:46px;
+  border:none;border-radius:14px;
+  background:linear-gradient(135deg,#ff6b9d,#a259ff);
+  color:#fff;font-family:'Baloo 2',sans-serif;font-size:1rem;
+  font-weight:700;cursor:pointer;
+  box-shadow:0 4px 0 #6c4cf1,0 6px 14px rgba(108,76,241,.35);
+  transition:transform .12s;
+}
+.nbtn:active{transform:translateY(3px);box-shadow:0 1px 0 #6c4cf1}
+.nbtn:disabled{background:#d1c4e9;color:#fff;box-shadow:0 4px 0 #b39ddb;opacity:.7}
+.indicator{
+  flex:1;text-align:center;font-family:'Baloo 2',sans-serif;
+  color:#6c4cf1;font-weight:700;font-size:.95rem;
+  background:#fff;padding:10px;border-radius:14px;
+  border:2px dashed #a259ff;min-height:46px;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+
+@media (max-width:380px){
+  .header h1{font-size:1.05rem}
+  .rule-card h3{font-size:1.1rem}
+  .wc-title{font-size:.95rem}
+  .eng{font-size:.95rem}
+  .urdu{font-size:1.05rem}
+  .tag{font-size:.6rem;min-width:42px}
+  .nbtn{min-width:64px;font-size:.9rem}
+  .row{gap:6px;padding:8px 8px}
+  .page{padding:14px 12px 20px}
+}
+</style>
+</head>
+<body>
+<div class="book">
+  <div class="header">
+    <span class="emoji">🚀</span>
+    <div style="flex:1">
+      <h1>Adjective Adventure</h1>
+      <div class="sub">Grade 5 • Degrees of Adjectives</div>
+    </div>
+    <span class="emoji">📚</span>
+  </div>
+  <div class="page-wrap" id="wrap"></div>
+  <div class="nav">
+    <button class="nbtn" id="prev">◀ Back</button>
+    <div class="indicator" id="ind">1 / 1</div>
+    <button class="nbtn" id="next">Next ▶</button>
+  </div>
+</div>
+
+<script>
+const PAGES = [{"kind": "cover"}, {"kind": "content", "title": "Type 1 ✨", "rule": "Add -er / -est", "emoji": "🪄", "words": [["brave", "بہادر", "braver", "زیادہ بہادر", "bravest", "سب سے بہادر"], ["cold", "ٹھنڈا", "colder", "زیادہ ٹھنڈا", "coldest", "سب سے ٹھنڈا"], ["dark", "اندھیرا / کالا", "darker", "زیادہ اندھیرا", "darkest", "سب سے اندھیرا"], ["dear", "پیارا", "dearer", "زیادہ پیارا", "dearest", "سب سے پیارا"], ["great", "عظیم", "greater", "زیادہ عظیم", "greatest", "سب سے عظیم"], ["large", "بڑا", "larger", "زیادہ بڑا", "largest", "سب سے بڑا"], ["late", "دیر سے", "later", "زیادہ دیر سے", "latest", "سب سے دیر سے / جدید ترین"], ["long", "لمبا", "longer", "زیادہ لمبا", "longest", "سب سے لمبا"], ["near", "قریب", "nearer", "زیادہ قریب", "nearest", "سب سے قریب"], ["old", "پرانا / بوڑھا", "older", "زیادہ بوڑھا", "oldest", "سب سے بوڑھا"], ["quiet", "خاموش", "quieter", "زیادہ خاموش", "quietest", "سب سے خاموش"], ["rich", "امیر", "richer", "زیادہ امیر", "richest", "سب سے امیر"], ["sharp", "تیز / تیز دھار", "sharper", "زیادہ تیز", "sharpest", "سب سے تیز"], ["slow", "آہستہ", "slower", "زیادہ آہستہ", "slowest", "سب سے آہستہ"], ["small", "چھوٹا", "smaller", "زیادہ چھوٹا", "smallest", "سب سے چھوٹا"], ["smooth", "ہموار", "smoother", "زیادہ ہموار", "smoothest", "سب سے ہموار"], ["soft", "نرم", "softer", "زیادہ نرم", "softest", "سب سے نرم"], ["strange", "عجیب", "stranger", "زیادہ عجیب", "strangest", "سب سے عجیب"], ["warm", "گرم", "warmer", "زیادہ گرم", "warmest", "سب سے گرم"], ["weak", "کمزور", "weaker", "زیادہ کمزور", "weakest", "سب سے کمزور"], ["white", "سفید", "whiter", "زیادہ سفید", "whitest", "سب سے سفید"], ["wise", "عقلمند", "wiser", "زیادہ عقلمند", "wisest", "سب سے عقلمند"]]}, {"kind": "content", "title": "Type 2 🌟", "rule": "Ends in 'y' → -ier / -iest", "emoji": "🍀", "words": [["dirty", "گندا", "dirtier", "زیادہ گندا", "dirtiest", "سب سے گندا"], ["early", "جلدی", "earlier", "زیادہ جلدی", "earliest", "سب سے جلدی"], ["easy", "آسان", "easier", "زیادہ آسان", "easiest", "سب سے آسان"], ["happy", "خوش", "happier", "زیادہ خوش", "happiest", "سب سے خوش"], ["heavy", "بھاری", "heavier", "زیادہ بھاری", "heaviest", "سب سے بھاری"], ["hungry", "بھوکا", "hungrier", "زیادہ بھوکا", "hungriest", "سب سے بھوکا"]]}, {"kind": "content", "title": "Type 3 🔥", "rule": "Double the last letter", "emoji": "💪", "words": [["big", "بڑا", "bigger", "زیادہ بڑا", "biggest", "سب سے بڑا"], ["fat", "موٹا", "fatter", "زیادہ موٹا", "fattest", "سب سے موٹا"], ["hot", "گرم", "hotter", "زیادہ گرم", "hottest", "سب سے گرم"], ["mad", "پاگل", "madder", "زیادہ پاگل", "maddest", "سب سے پاگل"], ["sad", "اداس", "sadder", "زیادہ اداس", "saddest", "سب سے اداس"], ["thin", "پتلا", "thinner", "زیادہ پتلا", "thinnest", "سب سے پتلا"]]}, {"kind": "content", "title": "Type 4 🌈", "rule": "Irregular — whole word changes", "emoji": "🦄", "words": [["bad", "برُا", "worse", "زیادہ برُا", "worst", "سب سے برُا"], ["far", "دور", "farther", "زیادہ دور", "farthest", "سب سے دور"], ["good", "اچھا", "better", "زیادہ اچھا", "best", "سب سے اچھا"], ["little", "کم / چھوٹا", "less", "اس سے کم", "least", "سب سے کم"], ["many", "زیادہ (تعداد)", "more", "اس سے زیادہ", "most", "سب سے زیادہ"], ["much", "زیادہ (مقدار)", "more", "اس سے زیادہ", "most", "سب سے زیادہ"]]}, {"kind": "content", "title": "Type 5 🎨", "rule": "Use 'more' & 'most'", "emoji": "🏆", "words": [["beautiful", "خوبصورت", "more beautiful", "زیادہ خوبصورت", "most beautiful", "سب سے خوبصورت"], ["careful", "محتاط", "more careful", "زیادہ محتاط", "most careful", "سب سے محتاط"], ["comfortable", "آرام دہ", "more comfortable", "زیادہ آرام دہ", "most comfortable", "سب سے آرام دہ"], ["curly", "گھنگھریالے", "more curly", "زیادہ گھنگھریالے", "most curly", "سب سے گھنگھریالے"], ["expensive", "مہنگا", "more expensive", "زیادہ مہنگا", "most expensive", "سب سے مہنگا"], ["generous", "سخی", "more generous", "زیادہ سخی", "most generous", "سب سے سخی"], ["handsome", "خوبصورت (مرد)", "more handsome", "زیادہ خوبصورت", "most handsome", "سب سے خوبصورت"], ["famous", "مشہور", "more famous", "زیادہ مشہور", "most famous", "سب سے مشہور"]]}, {"kind": "end"}];
+const wrap = document.getElementById('wrap');
+
+function speak(t){
+  if(!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t);
+  u.rate=.85; u.pitch=1.1; u.lang='en-US';
+  speechSynthesis.speak(u);
+}
+window.speak = speak;
+
+function escapeHtml(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function renderRow(tag,tagClass,eng,urdu){
+  return `<div class="row">
+    <span class="tag ${tagClass}">${tag}</span>
+    <span class="eng">${escapeHtml(eng)}<button class="audio" onclick="speak('${escapeHtml(eng)}')" aria-label="play">🔊</button></span>
+    <span></span>
+    <span class="urdu">${urdu}</span>
+  </div>`;
+}
+
+const EMOJIS=['🦁','❄️','🌙','💖','🌟','🐘','⏰','📏','📍','🦉','🤫','💰','⚡','🐢','🐭','🌊','☁️','👽','🔥','🍃','⚪','🦊','🧹','🌅','📖','😊','🏋️','🍔','🐻','🍳','🌶️','🤪','😢','🧵','👎','🛣️','👍','🤏','➕','➕','🌸','🛡️','🛋️','🦱','💎','🎁','🤵','⭐'];
+
+function renderPage(p,i){
+  if(p.kind==='cover'){
+    return `<div class="page${i===0?' active':''}" data-i="${i}">
+      <div class="cover">
+        <div class="big">🚀</div>
+        <h2>Adjective Adventure!</h2>
+        <p>Let's learn how words grow bigger, better and bravest! 🦸‍♂️✨</p>
+        <div class="badge">⭐ Grade 5 ⭐</div>
+        <p style="font-size:.85rem">Tap <strong>Next ▶</strong> to begin</p>
+      </div></div>`;
+  }
+  if(p.kind==='end'){
+    return `<div class="page${i===0?' active':''}" data-i="${i}">
+      <div class="end">
+        <div class="star">🏆</div>
+        <h2>You did it!</h2>
+        <p>You are now an <strong>Adjective Champion</strong>! 🌟</p>
+        <p style="font-size:.9rem">Keep practicing and you'll be the <em>brightest</em> star! ✨</p>
+        <div class="badge" style="background:linear-gradient(135deg,#1dd1a1,#48dbfb);color:#fff">🎉 Well Done! 🎉</div>
+      </div></div>`;
+  }
+  let cards='';
+  p.words.forEach((w,idx)=>{
+    const em = EMOJIS[(idx + i*7) % EMOJIS.length];
+    cards += `<div class="word-card">
+      <div class="wc-head">
+        <div class="wc-num">${idx+1}</div>
+        <div class="wc-title">${escapeHtml(w[0])}</div>
+        <div class="wc-emoji">${em}</div>
+      </div>
+      ${renderRow('Positive','p',w[0],w[1])}
+      ${renderRow('Comp.','c',w[2],w[3])}
+      ${renderRow('Super.','s',w[4],w[5])}
+    </div>`;
+  });
+  return `<div class="page${i===0?' active':''}" data-i="${i}">
+    <div class="rule-card">
+      <span class="ico">${p.emoji}</span>
+      <h3>${p.title}</h3>
+      <div class="rule">${escapeHtml(p.rule)}</div>
+    </div>
+    ${cards}
+  </div>`;
+}
+
+wrap.innerHTML = PAGES.map(renderPage).join('');
+const pageEls = [...wrap.querySelectorAll('.page')];
+let cur = 0;
+const prev = document.getElementById('prev');
+const next = document.getElementById('next');
+const ind = document.getElementById('ind');
+
+function show(i){
+  cur = Math.max(0,Math.min(pageEls.length-1,i));
+  pageEls.forEach((el,idx)=>el.classList.toggle('active',idx===cur));
+  ind.textContent = `📖 ${cur+1} / ${pageEls.length}`;
+  prev.disabled = cur===0;
+  next.disabled = cur===pageEls.length-1;
+  wrap.scrollTop = 0;
+}
+prev.onclick = ()=>show(cur-1);
+next.onclick = ()=>show(cur+1);
+
+// Swipe
+let sx=0;
+wrap.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+wrap.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-sx;
+  if(Math.abs(dx)>60){ show(cur + (dx<0?1:-1)); }
+});
+
+show(0);
+</script>
+</body>
+</html>
